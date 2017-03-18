@@ -53,17 +53,10 @@ public class Encryption_System {
         BigInteger x,y;
         BigInteger solution = new BigInteger("0");
         return solution;
-    } 
+    }
     
-      
-    public static void main(String[] args) throws IOException {
-        // TODO code application logic here
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public static BigInteger[] encrypt_message(BigInteger n, BigInteger e,String message) {
         
-         Encryption_System obj1 = new Encryption_System();
-         System.out.println("Public Key : ("+n+", "+e+")\n");
-        
-        String message = br.readLine();
         int len = message.length();
         char msg_char[] = new char[len];
         BigInteger msg_int[] = new BigInteger[len];
@@ -74,9 +67,41 @@ public class Encryption_System {
             BigInteger temp = new BigInteger((""+((int)msg_char[i])));
             encrypted[i] = temp.modPow(e,n);
             System.out.println(encrypted[i] + "\n");
-        }       
+        }
         
-        System.out.println(totient + "\n" + e);
+        return encrypted;
+    }
+    
+    public static String decrypt_message(BigInteger n, BigInteger d,BigInteger[] encrypted) {
+        int len = encrypted.length;
+        String decrypted = "";
+        
+        for(int i = 0;i<len;i++) {
+            BigInteger temp = encrypted[i];
+            temp = temp.modPow(d, n);
+            String str = temp.toString();
+            int msg = Integer.valueOf(str);
+            decrypted += (char)msg;
+        }
+        
+        return decrypted;
+    }
+    
+      
+    public static void main(String[] args) throws IOException {
+        // TODO code application logic here
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+         Encryption_System obj1 = new Encryption_System();
+         System.out.println("Public Key : ("+n+", "+e+")\n");
+        
+        String message = br.readLine();
+        
+        BigInteger encrypted_form[] = encrypt_message(n,e,message);
+        
+        String decrypted = decrypt_message(n,e,encrypted_form);
+        
+        System.out.println(decrypted);
         
         //System.out.println(n);
         
