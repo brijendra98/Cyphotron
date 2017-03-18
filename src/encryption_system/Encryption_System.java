@@ -51,7 +51,7 @@ public class Encryption_System {
     
     public static BigInteger solve_diophantine(BigInteger a, BigInteger b, BigInteger c) {
         BigInteger x,y;
-        BigInteger solution = new BigInteger("0");
+        BigInteger solution = new BigInteger("0"); //This part still to be done
         return solution;
     }
     
