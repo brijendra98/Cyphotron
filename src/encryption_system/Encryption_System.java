@@ -60,22 +60,23 @@ public class Encryption_System {
         // TODO code application logic here
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         
+         Encryption_System obj1 = new Encryption_System();
+         System.out.println("Public Key : ("+n+", "+e+")\n");
+        
         String message = br.readLine();
         int len = message.length();
         char msg_char[] = new char[len];
         BigInteger msg_int[] = new BigInteger[len];
+        BigInteger encrypted[] = new BigInteger[len];
         
         for(int i = 0;i<len;i++) {
             msg_char[i] = message.charAt(i);
-        }
-        
-        Encryption_System obj1 = new Encryption_System();
+            BigInteger temp = new BigInteger((""+((int)msg_char[i])));
+            encrypted[i] = temp.modPow(e,n);
+            System.out.println(encrypted[i] + "\n");
+        }       
         
         System.out.println(totient + "\n" + e);
-        
-        
-        
-        
         
         //System.out.println(n);
         
