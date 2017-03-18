@@ -5,9 +5,9 @@
  */
 package encryption_system;
 
-import java.math.BigInteger;
 import java.math.*;
 import java.util.*;
+import java.io.*;
 
 /**
  *
@@ -38,7 +38,7 @@ public class Encryption_System {
                 
         while(true) {
             Random num = new Random();
-            BigInteger probable_e = BigInteger.probablePrime(13, num);
+            BigInteger probable_e = BigInteger.probablePrime(128, num);
             if(!(zero.equals(totient.mod(probable_e)))) {
                 e = probable_e;
                 //System.out.println(probable_e);
@@ -46,23 +46,33 @@ public class Encryption_System {
             }
         }
         
-        
+        d = solve_diophantine(totient.negate(),e,one);
     }
     
-    public static BigInteger solve_diophantine(BigInteger a, BigInteger x, BigInteger b, BigInteger y, BigInteger c) {
+    public static BigInteger solve_diophantine(BigInteger a, BigInteger b, BigInteger c) {
+        BigInteger x,y;
         BigInteger solution = new BigInteger("0");
         return solution;
     } 
     
-    
-    
-    
-    
-    
-    public static void main(String[] args) {
+      
+    public static void main(String[] args) throws IOException {
         // TODO code application logic here
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        String message = br.readLine();
+        int len = message.length();
+        char msg_char[] = new char[len];
+        BigInteger msg_int[] = new BigInteger[len];
+        
+        for(int i = 0;i<len;i++) {
+            msg_char[i] = message.charAt(i);
+        }
         
         Encryption_System obj1 = new Encryption_System();
+        
+        System.out.println(totient + "\n" + e);
+        
         
         
         
