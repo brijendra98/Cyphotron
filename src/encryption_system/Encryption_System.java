@@ -46,18 +46,13 @@ public class Encryption_System {
             }
         }
         
-        while(true) {
-            BigInteger probable_d = new BigInteger());
-            BigInteger x = probable_d.multiply(e);
-            System.out.println(x);
-            
-            if(one.equals(x.mod(probable_d))) {
-                d = probable_d;
-                System.out.println(d);
-                break;
-            }
-        }
+        
     }
+    
+    public static BigInteger solve_diophantine(BigInteger a, BigInteger x, BigInteger b, BigInteger y, BigInteger c) {
+        BigInteger solution = new BigInteger("0");
+        return solution;
+    } 
     
     
     
