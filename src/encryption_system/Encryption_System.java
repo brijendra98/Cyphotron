@@ -25,7 +25,7 @@ public class Encryption_System {
     
     Encryption_System() {
         
-        int bits = 128;
+        int bits = 12;
             
         Random rnd = new Random();
         p = BigInteger.probablePrime(bits, rnd);
@@ -38,8 +38,8 @@ public class Encryption_System {
                 
         while(true) {
             Random num = new Random();
-            BigInteger probable_e = BigInteger.probablePrime(128, num);
-            if(!(zero.equals(totient.mod(probable_e)))) {
+            BigInteger probable_e = BigInteger.probablePrime(bits, num);
+            if(!(zero.equals(totient.mod(probable_e))) && totient.compareTo(probable_e) < 0) {
                 e = probable_e;
                 //System.out.println(probable_e);
                 break;
@@ -47,6 +47,7 @@ public class Encryption_System {
         }
         
         d = solve_diophantine(totient.negate(),e);
+        //d = d.mod(totient);
     }
     
     public static BigInteger solve_diophantine(BigInteger a, BigInteger b) {
@@ -60,11 +61,20 @@ public class Encryption_System {
         arr[1][2] = b;
         
         
-        while(true) { 
-            
+        while(true) {             
             if((arr[0][2].mod(arr[1][2])).equals(zero)) {
                 return arr[1][1];
             }
+            BigInteger s=arr[0][0],t=arr[0][1],r=arr[0][2],q=arr[0][3];
+            
+            for(int i = 0;i<4;i++) {
+                arr[0][i] = arr[1][i];
+            }
+            
+            arr[1][3] = r.divide(arr[0][2]);
+            arr[1][2] = r.mod(arr[0][2]);
+            arr[1][0] = s.subtract(arr[1][3].multiply(arr[0][0]));
+            arr[1][1] = t.subtract(arr[1][3].multiply(arr[0][1]));
             
         }
     }
@@ -93,6 +103,7 @@ public class Encryption_System {
         for(int i = 0;i<len;i++) {
             BigInteger temp = encrypted[i];
             temp = temp.modPow(d, n);
+            System.out.println("\nTemp "+(i+1)+" : "+temp);
             String str = temp.toString();
             int msg = Integer.valueOf(str);
             decrypted += (char)msg;
@@ -107,7 +118,11 @@ public class Encryption_System {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         
          Encryption_System obj1 = new Encryption_System();
-         System.out.println("Public Key : ("+n+", "+e+")\n");
+         //System.out.println("Public Key : ("+n+", "+e+")\n");
+         System.out.println("\nd : "+d);
+         System.out.println("\ne : "+e);
+         System.out.println("\nn : "+n);
+         System.out.println("\ntotient : "+totient);
         
         String message = br.readLine();
         
@@ -118,6 +133,12 @@ public class Encryption_System {
         System.out.println(decrypted);
         
         //System.out.println(n);
+         
+         /*BigInteger num1 = new BigInteger("13");
+         BigInteger num2 = new BigInteger("19");
+         
+         System.out.println(solve_diophantine(num1,num2));*/
+         
         
     }
     
