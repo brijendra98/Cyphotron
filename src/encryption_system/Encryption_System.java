@@ -21,17 +21,17 @@ public class Encryption_System {
      */
     
     static BigInteger p,q,p_1,q_1,n,totient,e,d;
+    static BigInteger zero = new BigInteger("0"), one = new BigInteger("1");
     
     Encryption_System() {
         
-        int bits = 256;
-        
-        BigInteger zero = new BigInteger("0");
+        int bits = 128;
+            
         Random rnd = new Random();
         p = BigInteger.probablePrime(bits, rnd);
         q = BigInteger.probablePrime(bits, rnd);
         n = p.multiply(q);
-        BigInteger one = new BigInteger("1");
+        
         p_1 = p.subtract(one);
         q_1 = q.subtract(one);
         totient = p_1.multiply(q_1);    
@@ -46,13 +46,27 @@ public class Encryption_System {
             }
         }
         
-        d = solve_diophantine(totient.negate(),e,one);
+        d = solve_diophantine(totient.negate(),e);
     }
     
-    public static BigInteger solve_diophantine(BigInteger a, BigInteger b, BigInteger c) {
-        BigInteger x,y;
-        BigInteger solution = new BigInteger("0"); //This part still to be done
-        return solution;
+    public static BigInteger solve_diophantine(BigInteger a, BigInteger b) {
+        
+        BigInteger arr[][]=new BigInteger[2][4];
+        arr[0][0] = one;
+        arr[0][1] = zero;
+        arr[1][0] = zero;
+        arr[1][1] = one;
+        arr[0][2] = a;
+        arr[1][2] = b;
+        
+        
+        while(true) { 
+            
+            if((arr[0][2].mod(arr[1][2])).equals(zero)) {
+                return arr[1][1];
+            }
+            
+        }
     }
     
     public static BigInteger[] encrypt_message(BigInteger n, BigInteger e,String message) {
